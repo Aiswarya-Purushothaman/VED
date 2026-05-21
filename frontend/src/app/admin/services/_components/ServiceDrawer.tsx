@@ -78,8 +78,8 @@ export default function ServiceDrawer({ open, onClose, initial, onSaved }: Props
     try {
       const { url } = await uploadApi.image(file);
       set("image", url);
-    } catch (e: any) {
-      setError(e.message ?? "Image upload failed.");
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : "Image upload failed.");
     } finally {
       setUploading(false);
     }
@@ -149,8 +149,8 @@ export default function ServiceDrawer({ open, onClose, initial, onSaved }: Props
       }
       onSaved();
       onClose();
-    } catch (e: any) {
-      setError(e.message ?? "Failed to save.");
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : "Failed to save.");
     } finally {
       setSaving(false);
     }

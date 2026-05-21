@@ -63,7 +63,7 @@ export default function AdminDashboard() {
     <div className="space-y-8">
       <div>
         <h2 className="font-playfair text-2xl font-bold" style={{ color: SADDLE }}>Overview</h2>
-        <p className="font-dm text-sm mt-1" style={{ color: `${SADDLE}70` }}>Welcome back, here's what's happening today.</p>
+        <p className="font-dm text-sm mt-1" style={{ color: `${SADDLE}70` }}>Welcome back, here&apos;s what&apos;s happening today.</p>
       </div>
 
       {/* Stat cards */}

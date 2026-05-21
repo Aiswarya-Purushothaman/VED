@@ -1,25 +1,15 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { X, ChevronLeft, ChevronRight, ArrowUpRight, ZoomIn, Sparkles } from "lucide-react";
+import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { galleryApi } from "@/lib/api";
 import type { GalleryImage } from "@/lib/api";
-
-/* ── Palette ──────────────────────────────────────── */
-const SADDLE = "#84572F";
-const TUSCAN = "#F1A805";
-const BUTTER = "#F2D6A1";
-const BREEZE = "#92ADA4";
-
-/* Cycle accent tints for category labels */
-const ACCENTS = [TUSCAN, BREEZE, BUTTER, SADDLE];
 
 export default function GalleryStrip() {
   const [allImages, setAllImages]   = useState<GalleryImage[]>([]);
   const [lightbox, setLightbox]     = useState<number | null>(null);
-  const reduced = useReducedMotion();
 
   useEffect(() => {
     galleryApi.list().then(setAllImages).catch(() => {});
@@ -135,7 +125,7 @@ export default function GalleryStrip() {
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80" />
             <div className="absolute inset-0 flex items-end justify-center pb-12">
               <span className="font-cinzel text-white text-xl md:text-2xl tracking-[0.4em] uppercase text-center leading-relaxed">
-                Life's <br/> Best <br/> Moments
+                Life&apos;s <br/> Best <br/> Moments
               </span>
             </div>
           </motion.button>

@@ -1,17 +1,12 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
-import { Sparkles, Star } from "lucide-react";
+import { motion } from "framer-motion";
 
 /* ── Palette ── */
 const SADDLE = "#84572F";
-const TUSCAN = "#F1A805";
-const BUTTER = "#F2D6A1";
-const TERRACOTTA = "#b87a6c";
 
 export default function BirthdayStrip() {
-  const reduced = useReducedMotion();
 
   return (
     <section
@@ -175,7 +170,7 @@ export default function BirthdayStrip() {
 }
 
 /* ── Floating Elements ── */
-function FloatingBalloon({ color, size, top, left, right, delay }: any) {
+function FloatingBalloon({ color, size, top, left, right, delay }: { color: string; size: number; top: string; left?: string; right?: string; delay: number }) {
   return (
     <motion.div
       initial={{ y: 0, opacity: 0 }}

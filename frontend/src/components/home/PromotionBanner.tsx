@@ -1,10 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
-
-const SADDLE = "#84572F";
-const TUSCAN = "#F1A805";
 
 export default function PromotionBanner() {
   return (

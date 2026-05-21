@@ -131,7 +131,7 @@ export default function AdminServicesPage() {
 
 /* ── Service row ─────────────────────────────────────── */
 function ServiceRow({
-  svc, expanded, onToggleExpand, saving, priceInputs,
+  svc, expanded, saving, priceInputs,
   onPriceChange, onSavePrice, onToggleActive, onEdit, onDelete,
 }: {
   svc: Service;

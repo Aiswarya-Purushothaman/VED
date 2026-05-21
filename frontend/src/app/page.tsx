@@ -1,5 +1,4 @@
 import HeroSlider from "@/components/home/HeroSlider";
-import MarqueeTicker from "@/components/home/MarqueeTicker";
 import ServicesGrid from "@/components/home/ServicesGrid";
 import WeddingStrip from "@/components/home/WeddingStrip";
 import BirthdayStrip from "@/components/home/BirthdayStrip";
@@ -7,7 +6,6 @@ import OccasionCategories from "@/components/home/OccasionCategories";
 import StatsBar from "@/components/home/StatsBar";
 import SpecialOccasions from "@/components/home/SpecialOccasions";
 import HowItWorks from "@/components/home/HowItWorks";
-import GalleryStrip from "@/components/home/GalleryStrip";
 import ReviewsCarousel from "@/components/home/ReviewsCarousel";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
 import CTABanner from "@/components/home/CTABanner";

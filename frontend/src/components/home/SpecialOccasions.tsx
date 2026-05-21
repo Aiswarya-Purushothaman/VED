@@ -3,13 +3,11 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Sparkles, GraduationCap, PartyPopper, Heart } from "lucide-react";
 import { servicesApi } from "@/lib/api";
 import type { ServiceSummary } from "@/lib/api";
 
 /* ── Palette ── */
 const SADDLE = "#84572F";
-const TUSCAN = "#F1A805";
 const BUTTER = "#F2D6A1";
 
 export default function SpecialOccasions() {
@@ -49,7 +47,7 @@ export default function SpecialOccasions() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="font-dm text-base md:text-lg text-[#84572F] opacity-70 max-w-md lg:ml-auto"
           >
-            From the joy of graduation to the legacy of retirement, we design environments that honor your life's most unique milestones.
+            From the joy of graduation to the legacy of retirement, we design environments that honor your life&apos;s most unique milestones.
           </motion.p>
         </div>
 

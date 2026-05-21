@@ -4,7 +4,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import {
   Search, CalendarCheck, MapPin, Package, Sparkles,
   CheckCircle2, Clock, Loader2, XCircle, ChevronRight,
-  Copy, Check, AlertCircle,
+  AlertCircle,
 } from "lucide-react";
 import Link from "next/link";
 import { bookingsApi, type Booking } from "@/lib/api";
@@ -95,18 +95,11 @@ function StatusTimeline({ status }: { status: BookingStatus }) {
 }
 
 function BookingDetail({ booking }: { booking: Booking }) {
-  const [copied, setCopied] = useState(false);
   const reduced = useReducedMotion();
 
   const eventDate = new Date(booking.eventDate + "T00:00:00").toLocaleDateString("en-IN", {
     weekday: "long", day: "numeric", month: "long", year: "numeric",
   });
-
-  async function copy() {
-    await navigator.clipboard.writeText(booking.bookingNumber).catch(() => {});
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  }
 
   const details = [
     { icon: <CalendarCheck size={14} style={{ color: TUSCAN }} />, label: "Event Date", value: eventDate },

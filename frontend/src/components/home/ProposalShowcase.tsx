@@ -2,11 +2,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Heart, Sparkles, Gem } from "lucide-react";
+import { Heart, Gem } from "lucide-react";
 
 /* ── Palette ── */
 const SADDLE = "#84572F";
-const TUSCAN = "#F1A805";
 
 export default function ProposalShowcase() {
   return (
@@ -99,7 +98,7 @@ export default function ProposalShowcase() {
               
               <div className="space-y-6 mb-10">
                 <p className="font-dm text-lg text-[#84572F] opacity-70 max-w-md mx-auto lg:mx-0">
-                  We turn your "Yes" into an unforgettable masterpiece. From private terrace setups to grand beachside reveals.
+                  We turn your &quot;Yes&quot; into an unforgettable masterpiece. From private terrace setups to grand beachside reveals.
                 </p>
                 
                 <div className="flex flex-col gap-4 text-sm font-cinzel tracking-widest text-[#84572F]">

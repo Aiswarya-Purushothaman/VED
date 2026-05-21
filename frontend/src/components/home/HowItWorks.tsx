@@ -1,5 +1,5 @@
 "use client";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { PhoneCall, Paintbrush2, Sparkles } from "lucide-react";
 
 /* ── Palette ──────────────────────────────────────── */
@@ -43,8 +43,6 @@ const steps = [
 ];
 
 export default function HowItWorks() {
-  const reduced = useReducedMotion();
-
   return (
     <section className="relative py-16 md:py-20 overflow-hidden bg-[#fcf6ef]">
       {/* ── Background Aesthetics ── */}

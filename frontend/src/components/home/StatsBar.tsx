@@ -1,12 +1,11 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { motion, useMotionValue, useSpring, useReducedMotion } from "framer-motion";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 import { PartyPopper, Star, Trophy, HeartHandshake } from "lucide-react";
 
 /* ── Palette ──────────────────────────────────────── */
 const SADDLE = "#84572F";
 const TUSCAN = "#F1A805";
-const BUTTER = "#F2D6A1";
 
 const stats = [
   {
@@ -51,7 +50,7 @@ const stats = [
   },
 ];
 
-function SpringCounter({ value, inView, accent }: any) {
+function SpringCounter({ value, inView, accent }: { value: number; inView: boolean; accent: string }) {
   const motionVal = useMotionValue(0);
   const springVal = useSpring(motionVal, { stiffness: 40, damping: 15 });
   const [display, setDisplay] = useState(0);

@@ -1,12 +1,10 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 
 /* ── Palette ── */
-const SADDLE = "#84572F";
 const TUSCAN = "#F1A805";
-const BUTTER = "#F2D6A1";
 
 const CATEGORIES = [
   {
@@ -61,8 +59,6 @@ const CATEGORIES = [
 ];
 
 export default function OccasionCategories() {
-  const reduced = useReducedMotion();
-
   return (
     <section className="relative flex flex-col justify-center overflow-hidden bg-[#fcf6ef] pt-10 pb-0">
       {/* ── Background Aesthetics ── */}
