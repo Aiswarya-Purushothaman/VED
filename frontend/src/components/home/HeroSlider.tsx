@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import Image from "next/image";
+import { apiFetch } from "@/lib/api";
 import HeroSliderSkeleton from "./hero/HeroSliderSkeleton";
 import BottomWave from "./hero/BottomWave";
 
@@ -29,7 +30,6 @@ const textVariants: Variants = {
   exit: { opacity: 0, y: -10, filter: "blur(4px)", transition: { duration: 0.3 } },
 };
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001/api";
 const SLIDE_DURATION = 6000;
 
 export default function HeroSlider() {
@@ -38,9 +38,8 @@ export default function HeroSlider() {
   const [direction, setDirection] = useState(1);
 
   useEffect(() => {
-    fetch(`${API_URL}/hero-slides`)
-      .then((r) => r.json())
-      .then((data: HeroSlide[]) => Array.isArray(data) && setSlides(data))
+    apiFetch<HeroSlide[]>("/hero-slides")
+      .then((data) => Array.isArray(data) && setSlides(data))
       .catch(() => {});
   }, []);
 

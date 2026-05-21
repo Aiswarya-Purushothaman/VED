@@ -1,8 +1,9 @@
 "use client";
-import { useEffect, useState } from "react";
-import { galleryApi, type GalleryImage } from "@/lib/api";
+import { useEffect, useRef, useState } from "react";
+import { galleryApi, uploadApi, type GalleryImage } from "@/lib/api";
+import { compressImage } from "@/lib/compressImage";
 import { GallerySkeleton } from "../_components/Skeletons";
-import { Plus, Trash2, Eye, EyeOff } from "lucide-react";
+import { Plus, Trash2, Eye, EyeOff, Upload, ImageIcon } from "lucide-react";
 import Image from "next/image";
 
 const SADDLE = "#84572F";
@@ -14,6 +15,9 @@ export default function AdminGalleryPage() {
   const [saving, setSaving] = useState<string | null>(null);
   const [showAdd, setShowAdd] = useState(false);
   const [newImg, setNewImg] = useState({ src: "", category: "", alt: "" });
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   function load() {
     setLoading(true);
@@ -22,12 +26,27 @@ export default function AdminGalleryPage() {
 
   useEffect(() => { load(); }, []);
 
+  async function handleGalleryFile(file: File) {
+    setUploading(true);
+    setUploadError("");
+    try {
+      const compressed = await compressImage(file);
+      const { url } = await uploadApi.image(compressed);
+      setNewImg((p) => ({ ...p, src: url }));
+    } catch (e: unknown) {
+      setUploadError(e instanceof Error ? e.message : "Image upload failed.");
+    } finally {
+      setUploading(false);
+    }
+  }
+
   async function addImage() {
     if (!newImg.src.trim()) return;
     setSaving("new");
     const created = await galleryApi.create(newImg);
     setImages((prev) => [...prev, created]);
     setNewImg({ src: "", category: "", alt: "" });
+    setUploadError("");
     setShowAdd(false);
     setSaving(null);
   }
@@ -64,10 +83,52 @@ export default function AdminGalleryPage() {
         <div className="rounded-2xl p-5 space-y-3"
           style={{ background: "#fff", border: `1px solid ${TUSCAN}25` }}>
           <p className="font-cinzel text-[11px] tracking-[0.3em] uppercase" style={{ color: SADDLE }}>New Gallery Image</p>
-          <input value={newImg.src} onChange={(e) => setNewImg((p) => ({ ...p, src: e.target.value }))}
-            placeholder="Image URL *"
-            className="w-full border rounded-xl px-4 py-2.5 font-dm text-sm outline-none"
-            style={{ borderColor: `${TUSCAN}30`, color: SADDLE }} />
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => { const f = e.target.files?.[0]; if (f) handleGalleryFile(f); }}
+          />
+          {newImg.src ? (
+            <div
+              className="relative w-full h-40 rounded-xl overflow-hidden border group cursor-pointer"
+              style={{ borderColor: `${TUSCAN}30` }}
+              onClick={() => fileInputRef.current?.click()}
+            >
+              <Image src={newImg.src} alt="preview" fill className="object-cover" unoptimized />
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                <Upload size={16} className="text-white" />
+                <span className="font-dm text-xs text-white">Change image</span>
+              </div>
+              {uploading && (
+                <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                  <span className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                </div>
+              )}
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={uploading}
+              className="w-full h-40 rounded-xl border-2 border-dashed flex flex-col items-center justify-center gap-2 transition-colors hover:bg-amber-50/50 disabled:opacity-60"
+              style={{ borderColor: `${TUSCAN}40` }}
+            >
+              {uploading ? (
+                <span className="w-6 h-6 border-2 rounded-full animate-spin" style={{ borderColor: `${TUSCAN}30`, borderTopColor: TUSCAN }} />
+              ) : (
+                <>
+                  <ImageIcon size={24} style={{ color: `${SADDLE}40` }} />
+                  <span className="font-cinzel text-[11px] tracking-[0.2em] uppercase" style={{ color: `${SADDLE}60` }}>
+                    Click to upload image
+                  </span>
+                  <span className="font-dm text-xs" style={{ color: `${SADDLE}40` }}>Any size — auto compressed to 2 MB</span>
+                </>
+              )}
+            </button>
+          )}
+          {uploadError && <p className="font-dm text-xs text-red-600 bg-red-50 px-3 py-2 rounded-lg">{uploadError}</p>}
           <div className="flex gap-3">
             <input value={newImg.category} onChange={(e) => setNewImg((p) => ({ ...p, category: e.target.value }))}
               placeholder="Category (e.g. wedding)"
@@ -78,11 +139,6 @@ export default function AdminGalleryPage() {
               className="flex-1 border rounded-xl px-4 py-2.5 font-dm text-sm outline-none"
               style={{ borderColor: `${TUSCAN}30`, color: SADDLE }} />
           </div>
-          {newImg.src && (
-            <div className="relative w-32 h-24 rounded-xl overflow-hidden border" style={{ borderColor: `${TUSCAN}20` }}>
-              <Image src={newImg.src} alt="preview" fill className="object-cover" unoptimized />
-            </div>
-          )}
           <div className="flex gap-2">
             <button onClick={addImage} disabled={saving === "new" || !newImg.src}
               className="px-5 py-2 rounded-xl font-cinzel text-[11px] tracking-[0.25em] uppercase disabled:opacity-50"

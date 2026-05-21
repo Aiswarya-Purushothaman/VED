@@ -6,6 +6,7 @@ import {
   Plus, X, Trash2, Check, Upload, ImageIcon,
 } from "lucide-react";
 import { servicesApi, uploadApi, type Service, type ServicePayload } from "@/lib/api";
+import { compressImage } from "@/lib/compressImage";
 import TagList from "./TagList";
 import type { ServiceForm, PkgForm } from "./types";
 import {
@@ -76,7 +77,8 @@ export default function ServiceDrawer({ open, onClose, initial, onSaved }: Props
     setUploading(true);
     setError("");
     try {
-      const { url } = await uploadApi.image(file);
+      const compressed = await compressImage(file);
+      const { url } = await uploadApi.image(compressed);
       set("image", url);
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : "Image upload failed.");
