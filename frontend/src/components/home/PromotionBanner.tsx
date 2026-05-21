@@ -14,7 +14,6 @@ export default function PromotionBanner() {
         {/* ── THE INTEGRATED DECORATED BANNER ── */}
         <div className="relative group">
           
-          {/* Top Scalloped Edge */}
           <div className="absolute -top-4 left-0 right-0 h-8 z-20 pointer-events-none fill-white">
             <svg viewBox="0 0 1440 48" className="w-full h-full">
               <path d="M0,48 C120,48 120,0 240,0 C360,0 360,48 480,48 C600,48 600,0 720,0 C840,0 840,48 960,48 C1080,48 1080,0 1200,0 C1320,0 1320,48 1440,48 L1440,48 L0,48 Z" />
