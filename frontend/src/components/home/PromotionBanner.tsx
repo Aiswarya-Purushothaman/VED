@@ -7,6 +7,7 @@ export default function PromotionBanner() {
     <section className="relative py-12 md:py-16 px-4 md:px-6 overflow-hidden bg-white">
       <div className="container-max relative">
         
+        
         <div className="relative group">
           
           <div className="absolute -top-4 left-0 right-0 h-8 z-20 pointer-events-none fill-white">
