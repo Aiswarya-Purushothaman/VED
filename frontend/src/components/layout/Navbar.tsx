@@ -53,6 +53,7 @@ export default function Navbar() {
   const linkCol = `${SADDLE}CC`;
 
   return (
+    <>
     <motion.header
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
@@ -180,21 +181,23 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile menu */}
-      <AnimatePresence>
-        {menuOpen && (
-          <MobileMenu
-            links={navLinks}
-            pathname={pathname}
-            scrolled={scrolled}
-            isLoggedIn={isLoggedIn}
-            isAdmin={isAdmin}
-            userName={user?.name}
-            onLogout={logout}
-            onClose={() => setMenuOpen(false)}
-          />
-        )}
-      </AnimatePresence>
     </motion.header>
+
+    {/* Mobile menu rendered outside motion.header so position:fixed isn't broken by the header's CSS transform */}
+    <AnimatePresence>
+      {menuOpen && (
+        <MobileMenu
+          links={navLinks}
+          pathname={pathname}
+          scrolled={scrolled}
+          isLoggedIn={isLoggedIn}
+          isAdmin={isAdmin}
+          userName={user?.name}
+          onLogout={logout}
+          onClose={() => setMenuOpen(false)}
+        />
+      )}
+    </AnimatePresence>
+    </>
   );
 }

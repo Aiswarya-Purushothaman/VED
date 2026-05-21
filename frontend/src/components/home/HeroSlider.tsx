@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import Image from "next/image";
@@ -18,6 +19,7 @@ interface HeroSlide {
   color: string;
   accentColor: string;
   bg: string;
+  serviceSlug: string | null;
   sortOrder: number;
 }
 
@@ -157,14 +159,14 @@ export default function HeroSlider() {
               </motion.div>
 
               <motion.div custom={4} variants={textVariants}>
-                <a
-                  href="tel:8884447579"
+                <Link
+                  href={slide.serviceSlug ? `/services/${slide.serviceSlug}` : "/services"}
                   className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-xl font-dm text-xs font-semibold tracking-widest uppercase transition-all duration-300 hover:scale-105 active:scale-95 shadow-xl hover:shadow-2xl"
                   style={{ backgroundColor: slide.accentColor, color: "#fbf6f0", boxShadow: `0 10px 30px -10px ${slide.accentColor}80` }}
                 >
                   EXPLORE COLLECTION
                   <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
-                </a>
+                </Link>
               </motion.div>
             </motion.div>
           </AnimatePresence>

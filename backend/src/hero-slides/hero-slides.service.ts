@@ -13,6 +13,7 @@ export interface UpsertHeroSlideDto {
   color: string;
   accentColor: string;
   bg: string;
+  serviceSlug?: string | null;
   sortOrder?: number;
   isActive?: boolean;
 }

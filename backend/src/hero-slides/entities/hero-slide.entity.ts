@@ -38,6 +38,9 @@ export class HeroSlide {
   @Column({ length: 20 })
   bg: string;
 
+  @Column({ length: 100, nullable: true })
+  serviceSlug: string | null;
+
   @Column({ default: 0 })
   sortOrder: number;
 

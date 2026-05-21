@@ -27,9 +27,8 @@ export default function MobileMenu({
       animate={{ opacity: 1, clipPath: "inset(0 0 0% 0)" }}
       exit={{ opacity: 0, clipPath: "inset(0 0 100% 0)" }}
       transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-      className="lg:hidden fixed inset-x-0 bottom-0 flex flex-col"
+      className={`lg:hidden fixed inset-x-0 bottom-0 flex flex-col z-40 ${scrolled ? "top-16" : "top-16 md:top-20"}`}
       style={{
-        top: scrolled ? "64px" : "64px",
         background: "rgba(237,250,250,0.97)",
         backdropFilter: "blur(24px)",
         WebkitBackdropFilter: "blur(24px)",
