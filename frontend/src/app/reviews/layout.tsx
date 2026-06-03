@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { reviews } from "@/data/reviews";
 
 export const metadata: Metadata = {
   title: "Client Reviews & Testimonials | Virtual Events and Decorations",
@@ -26,6 +27,32 @@ export const metadata: Metadata = {
   },
 };
 
+const reviewsSchema = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: "Virtual Events and Decorations",
+  "@id": "https://virtualeventsanddecorations.in",
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "5",
+    reviewCount: String(reviews.length),
+    bestRating: "5",
+    worstRating: "1",
+  },
+  review: reviews.slice(0, 5).map((r) => ({
+    "@type": "Review",
+    author: { "@type": "Person", name: r.name },
+    reviewRating: { "@type": "Rating", ratingValue: String(r.rating), bestRating: "5", worstRating: "1" },
+    reviewBody: r.text,
+    datePublished: r.date,
+  })),
+};
+
 export default function ReviewsLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewsSchema) }} />
+      {children}
+    </>
+  );
 }

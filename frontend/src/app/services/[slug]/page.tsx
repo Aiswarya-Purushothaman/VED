@@ -7,6 +7,17 @@ import ServiceHeroSection from "@/components/services/ServiceHeroSection";
 import ServiceAnimatedBody from "@/components/services/ServiceAnimatedBody";
 import type { Metadata } from "next";
 
+export const revalidate = 3600;
+
+export async function generateStaticParams() {
+  try {
+    const services = await servicesApi.list();
+    return services.map((s) => ({ slug: s.slug }));
+  } catch {
+    return [];
+  }
+}
+
 interface Props { params: { slug: string } }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

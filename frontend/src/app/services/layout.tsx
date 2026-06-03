@@ -27,6 +27,26 @@ export const metadata: Metadata = {
   },
 };
 
+const servicesCollectionSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "All Decoration Services – Virtual Events and Decorations",
+  description: "Browse 20+ premium decoration services in Bengaluru for birthdays, weddings, anniversaries, baby showers, candlelight dinners, corporate events & more.",
+  url: "https://virtualeventsanddecorations.in/services",
+  breadcrumb: {
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://virtualeventsanddecorations.in" },
+      { "@type": "ListItem", position: 2, name: "Services", item: "https://virtualeventsanddecorations.in/services" },
+    ],
+  },
+};
+
 export default function ServicesLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesCollectionSchema) }} />
+      {children}
+    </>
+  );
 }

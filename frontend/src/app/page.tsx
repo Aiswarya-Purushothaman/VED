@@ -12,6 +12,21 @@ import CTABanner from "@/components/home/CTABanner";
 import FeaturedEventBanner from "@/components/home/FeaturedEventBanner";
 import PromotionBanner from "@/components/home/PromotionBanner";
 
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Virtual Events and Decorations",
+  url: "https://virtualeventsanddecorations.in",
+  potentialAction: {
+    "@type": "SearchAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: "https://virtualeventsanddecorations.in/services?q={search_term_string}",
+    },
+    "query-input": "required name=search_term_string",
+  },
+};
+
 const localBusinessSchema = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
@@ -73,6 +88,7 @@ const localBusinessSchema = {
 export default function Home() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
