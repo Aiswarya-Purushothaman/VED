@@ -228,10 +228,11 @@ export interface ServicePayload {
 
 // ── Upload API ─────────────────────────────────────────────────────────────
 export const uploadApi = {
-  image: async (file: File): Promise<{ url: string }> => {
+  image: async (file: File, context?: string): Promise<{ url: string }> => {
     const token = getAccessToken();
     const formData = new FormData();
     formData.append("file", file);
+    if (context) formData.append("context", context);
     const res = await fetch(`${typeof window === "undefined" ? (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001/api") : "/api"}/uploads/image`, {
       method: "POST",
       headers: token ? { Authorization: `Bearer ${token}` } : {},

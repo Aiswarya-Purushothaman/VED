@@ -78,7 +78,7 @@ export default function ServiceDrawer({ open, onClose, initial, onSaved }: Props
     setError("");
     try {
       const compressed = await compressImage(file);
-      const { url } = await uploadApi.image(compressed);
+      const { url } = await uploadApi.image(compressed, form.name.trim() || undefined);
       set("image", url);
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : "Image upload failed.");

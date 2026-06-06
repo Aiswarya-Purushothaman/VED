@@ -27,6 +27,45 @@ const websiteSchema = {
   },
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Who is the best decoration service in Bangalore?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Virtual Events and Decorations is one of the top-rated decoration services in Bangalore (Bengaluru) with 500+ happy customers, specialising in birthdays, weddings, anniversaries, proposals, and candlelight dinners.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How much does event decoration cost in Bangalore?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Decoration packages in Bangalore start from ₹1,499 for simple balloon setups to ₹50,000+ for premium wedding and large event decorations. Contact us at 8884447579 for a free quote.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Do you provide decoration services at home in Bangalore?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes, Virtual Events and Decorations provides at-home decoration services across all areas of Bangalore/Bengaluru for birthdays, anniversaries, proposals, baby showers, and more.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How do I book a decoration in Bangalore?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "You can book a decoration by calling or WhatsApp-ing us at 8884447579, or by filling the booking form on our website. We recommend booking at least 3–5 days in advance.",
+      },
+    },
+  ],
+};
+
 const localBusinessSchema = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
@@ -89,10 +128,8 @@ export default function Home() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <HeroSlider />
       {/* <MarqueeTicker /> */}
       <ServicesGrid limit={8} />

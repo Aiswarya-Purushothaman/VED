@@ -31,7 +31,7 @@ export default function AdminGalleryPage() {
     setUploadError("");
     try {
       const compressed = await compressImage(file);
-      const { url } = await uploadApi.image(compressed);
+      const { url } = await uploadApi.image(compressed, newImg.category.trim() || undefined);
       setNewImg((p) => ({ ...p, src: url }));
     } catch (e: unknown) {
       setUploadError(e instanceof Error ? e.message : "Image upload failed.");

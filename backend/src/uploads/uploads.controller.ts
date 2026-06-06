@@ -29,9 +29,14 @@ export class UploadsController {
     FileInterceptor('file', {
       storage: diskStorage({
         destination: UPLOAD_DIR,
-        filename: (_req, file, cb) => {
-          const unique = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-          cb(null, `${unique}${extname(file.originalname)}`);
+        filename: (req, file, cb) => {
+          const raw: string = (req.body?.context as string) || file.originalname.replace(/\.[^.]+$/, '');
+          const slug = raw
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/^-+|-+$/g, '')
+            .slice(0, 60) || 'ved-image';
+          cb(null, `ved-${slug}-${Date.now()}${extname(file.originalname)}`);
         },
       }),
       limits: { fileSize: 3 * 1024 * 1024 },
