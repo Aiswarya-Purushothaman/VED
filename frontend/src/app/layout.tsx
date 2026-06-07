@@ -108,6 +108,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={`${playfair.variable} ${cormorant.variable} ${dmSans.variable} ${cinzel.variable} antialiased bg-dark`}>
+        {/* Instant black cover before JS loads — removed by LoadingScreen once mounted */}
+        <div id="ved-cover" style={{ position: "fixed", inset: 0, background: "#020608", zIndex: 9998, pointerEvents: "none" }} />
+        <script dangerouslySetInnerHTML={{ __html: `if(sessionStorage.getItem('ved-loaded')){var c=document.getElementById('ved-cover');if(c)c.style.display='none';}` }} />
         <LoadingScreen />
         <ScrollProgress />
         <CustomCursor />

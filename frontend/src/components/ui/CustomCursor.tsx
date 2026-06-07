@@ -1,11 +1,14 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useMotionValue, useSpring, useReducedMotion } from "framer-motion";
 
 export default function CustomCursor() {
   const prefersReduced = useReducedMotion();
   const [isPointer, setIsPointer] = useState(false);
   const [visible, setVisible] = useState(false);
+  // Refs gate state updates so we never re-render inside hot-path event handlers
+  const visibleRef = useRef(false);
+  const isPointerRef = useRef(false);
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -22,12 +25,19 @@ export default function CustomCursor() {
     const onMove = (e: MouseEvent) => {
       mouseX.set(e.clientX);
       mouseY.set(e.clientY);
-      if (!visible) setVisible(true);
+      if (!visibleRef.current) {
+        visibleRef.current = true;
+        setVisible(true);
+      }
     };
 
     const onOver = (e: MouseEvent) => {
       const el = e.target as HTMLElement;
-      setIsPointer(!!el.closest("a, button, [role='button'], input, select, textarea, label"));
+      const next = !!el.closest("a, button, [role='button'], input, select, textarea, label");
+      if (next !== isPointerRef.current) {
+        isPointerRef.current = next;
+        setIsPointer(next);
+      }
     };
 
     window.addEventListener("mousemove", onMove, { passive: true });
@@ -36,7 +46,7 @@ export default function CustomCursor() {
       window.removeEventListener("mousemove", onMove);
       document.removeEventListener("mouseover", onOver);
     };
-  }, [mouseX, mouseY, visible, prefersReduced]);
+  }, [mouseX, mouseY, prefersReduced]); // `visible` removed — tracked via ref instead
 
   if (prefersReduced || !visible) return null;
 

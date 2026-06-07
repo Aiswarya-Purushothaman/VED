@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import LogoMark from "@/components/ui/LogoMark";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -46,12 +46,21 @@ function Particles() {
 
 /* ── Main Component ───────────────────────────────── */
 export default function LoadingScreen() {
-  const [visible, setVisible] = useState(false);
+  // Start visible so the loader covers content the moment this chunk executes
+  const [visible, setVisible] = useState(true);
+  const isReturning = useRef(false);
 
   useEffect(() => {
-    if (!sessionStorage.getItem("ved-loaded")) {
+    // Remove the CSS cover (layout.tsx inline div) — we're now in control
+    const cover = document.getElementById("ved-cover");
+    if (cover) cover.style.display = "none";
+
+    if (sessionStorage.getItem("ved-loaded")) {
+      // Returning visitor — exit instantly, no animation
+      isReturning.current = true;
+      setVisible(false);
+    } else {
       sessionStorage.setItem("ved-loaded", "1");
-      setVisible(true);
       const t = setTimeout(() => setVisible(false), 2400);
       return () => clearTimeout(t);
     }
@@ -63,7 +72,10 @@ export default function LoadingScreen() {
         <motion.div
           key="loader"
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, filter: "blur(8px)", transition: { duration: 0.6, ease: "easeInOut" } }}
+          exit={isReturning.current
+            ? { opacity: 0, transition: { duration: 0 } }
+            : { opacity: 0, filter: "blur(8px)", transition: { duration: 0.6, ease: "easeInOut" } }
+          }
           className="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden"
           style={{ background: "#020608" }}
         >
