@@ -7,7 +7,7 @@ import { compressImage } from "@/lib/compressImage";
 import { GallerySkeleton } from "../_components/Skeletons";
 import {
   Plus, Trash2, Eye, EyeOff, Upload, ImageIcon, X,
-  CheckCircle2, AlertCircle, Loader2, ChevronDown, Search, Crop as CropIcon,
+  CheckCircle2, AlertCircle, Loader2, ChevronDown, Search, Crop as CropIcon, Pencil,
 } from "lucide-react";
 import Image from "next/image";
 
@@ -170,6 +170,8 @@ export default function AdminGalleryPage() {
   const [services, setServices] = useState<ServiceSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState<string | null>(null);
+  const [editingAlt, setEditingAlt] = useState<{ id: string; value: string } | null>(null);
+  const [altSaving, setAltSaving] = useState<string | null>(null);
   const [showAdd, setShowAdd] = useState(false);
   const [category, setCategory] = useState("");
   const [categoryOpen, setCategoryOpen] = useState(false);
@@ -338,6 +340,14 @@ export default function AdminGalleryPage() {
     await galleryApi.delete(id);
     setImages((prev) => prev.filter((i) => i.id !== id));
     setSaving(null);
+  }
+
+  async function saveAlt(id: string, alt: string) {
+    setAltSaving(id);
+    await galleryApi.update(id, { alt });
+    setImages((prev) => prev.map((i) => i.id === id ? { ...i, alt } : i));
+    setEditingAlt(null);
+    setAltSaving(null);
   }
 
   const cropTargetEntry = cropTarget ? pending.find((p) => p.previewUrl === cropTarget) : null;
@@ -586,7 +596,34 @@ export default function AdminGalleryPage() {
                 <Image src={img.src} alt={img.alt ?? ""} fill className="object-cover" unoptimized />
               </div>
               <div className="px-3 py-2" style={{ background: "#fff" }}>
-                <p className="font-dm text-xs truncate" style={{ color: SADDLE }}>{img.alt ?? "—"}</p>
+                {editingAlt?.id === img.id ? (
+                  <div className="flex items-center gap-1">
+                    <input
+                      autoFocus
+                      value={editingAlt.value}
+                      onChange={(e) => setEditingAlt({ id: img.id, value: e.target.value })}
+                      onBlur={() => saveAlt(img.id, editingAlt.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") saveAlt(img.id, editingAlt.value);
+                        if (e.key === "Escape") setEditingAlt(null);
+                      }}
+                      className="flex-1 min-w-0 font-dm text-xs outline-none border-b"
+                      style={{ borderColor: TUSCAN, color: SADDLE }}
+                    />
+                    {altSaving === img.id && <Loader2 size={11} className="animate-spin flex-shrink-0" style={{ color: TUSCAN }} />}
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => setEditingAlt({ id: img.id, value: img.alt ?? "" })}
+                    className="w-full flex items-center gap-1.5 group/alt text-left rounded-md px-1.5 py-0.5 -mx-1.5 transition-all hover:bg-amber-50"
+                    title="Click to edit alt text"
+                  >
+                    <span className="font-dm text-xs truncate flex-1" style={{ color: img.alt ? SADDLE : `${SADDLE}40` }}>
+                      {img.alt || "Add alt text…"}
+                    </span>
+                    <Pencil size={10} className="flex-shrink-0 transition-colors text-emerald-500 group-hover/alt:text-amber-400" />
+                  </button>
+                )}
                 {img.category && (
                   <p className="font-cinzel text-[11px] tracking-[0.2em] uppercase mt-0.5" style={{ color: `${SADDLE}50` }}>{img.category}</p>
                 )}
