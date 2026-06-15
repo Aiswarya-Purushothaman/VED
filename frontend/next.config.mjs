@@ -3,15 +3,10 @@ const nextConfig = {
   async rewrites() {
     const backendUrl =
       process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001/api";
-    const backendBase = backendUrl.replace(/\/api$/, "");
     return [
       {
         source: "/api/:path*",
         destination: `${backendUrl}/:path*`,
-      },
-      {
-        source: "/uploads/:path*",
-        destination: `${backendBase}/uploads/:path*`,
       },
     ];
   },
@@ -20,6 +15,11 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "images.unsplash.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
         pathname: "/**",
       },
     ],
